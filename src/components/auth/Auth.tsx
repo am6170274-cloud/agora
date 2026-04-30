@@ -31,7 +31,7 @@ const Auth = () => {
         if (error) throw error;
         toast.success("Registration successful! Please check your email.");
       }
-    } catch (error: try {
+    } catch (error: unknown {
   // ... existing logic
 } catch (error: unknown) {
   if (error instanceof Error) {
