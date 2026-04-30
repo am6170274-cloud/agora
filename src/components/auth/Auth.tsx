@@ -7,49 +7,36 @@ import { motion } from "framer-motion";
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    
-    try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Welcome back to TrustMint!");
-      } else {
-        const { error } = await supabase.auth.signUp({ 
-          email, 
-          password,
-          options: {
-            data: { username }
-          }
-        });
-        if (error) throw error;
-        toast.success("Registration successful! Please check your email.");
-      }
-    } catch (error: unknown {
-  // ... existing logic
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    toast.error(error.message || "Authentication failed");
-  } else {
-    toast.error("Authentication failed");
-  }
-}
-      toast.error(error.message || "Authentication failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
 
-  return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+  try {
+    if (isLogin) {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Welcome back to TrustMint!");
+    } else {
+      const { error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: { username }
+        }
+      });
+      if (error) throw error;
+      toast.success("Registration successful! Please check your email.");
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast.error(error.message || "Authentication failed");
+    } else {
+      toast.error("Authentication failed");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md space-y-8 rounded-3xl border border-slate-800 bg-slate-900/50 p-8 backdrop-blur-xl ring-1 ring-white/10"
       >
