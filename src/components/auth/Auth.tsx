@@ -31,7 +31,15 @@ const Auth = () => {
         if (error) throw error;
         toast.success("Registration successful! Please check your email.");
       }
-    } catch (error: any) {
+    } catch (error: try {
+  // ... existing logic
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    toast.error(error.message || "Authentication failed");
+  } else {
+    toast.error("Authentication failed");
+  }
+}
       toast.error(error.message || "Authentication failed");
     } finally {
       setLoading(false);
